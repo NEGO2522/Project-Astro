@@ -1,0 +1,26 @@
+{
+  "en": {
+    "welcome": "Welcome to GOD'S LINE",
+    "signInPrompt": "Sign in to your account to continue",
+    "signInWithGoogle": "Sign in with Google",
+    "orContinueWith": "Or continue with email",
+    "emailAddress": "Email Address",
+    "emailPlaceholder": "Enter your email",
+    "emailRequired": "Please enter your email address",
+    "sendSignInLink": "Send me a sign-in link",
+    "linkSentMessage": "Sign-in link sent to your email! Check your inbox.",
+    "emailPrompt": "Please provide your email for confirmation"
+  },
+  "hi": {
+    "welcome": "GOD'S LINE में आपका स्वागत है",
+    "signInPrompt": "जारी रखने के लिए अपने खाते में साइन इन करें",
+    "signInWithGoogle": "Google के साथ साइन इन करें",
+    "orContinueWith": "या ईमेल से जारी रखें",
+    "emailAddress": "ईमेल पता",
+    "emailPlaceholder": "अपना ईमेल दर्ज करें",
+    "emailRequired": "कृपया अपना ईमेल पता दर्ज करें",
+    "sendSignInLink": "मुझे साइन-इन लिंक भेजें",
+    "linkSentMessage": "आपके ईमेल पर साइन-इन लिंक भेज दिया गया है! अपना इनबॉक्स जांचें।",
+    "emailPrompt": "कृपया पुष्टि के लिए अपना ईमेल प्रदान करें"
+  }
+}

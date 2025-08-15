@@ -1,0 +1,90 @@
+{
+  "translations": {
+    "en": {
+      "nav": {
+        "features": "Features",
+        "getStarted": "Get Started",
+        "menu": "Menu"
+      },
+      "hero": {
+        "tagline": "AI-Powered Vedic Astrology",
+        "title": "Your Personal <span class=\"bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent\">Digital Pandit</span>",
+        "description": "Get personalized Vedic astrology guidance, auspicious timings, and daily insights powered by AI. Your spiritual journey, simplified.",
+        "startTrial": "Start Free Trial",
+        "exploreFeatures": "Explore Features",
+        "trustedBy": "Trusted by 10,000+ users"
+      },
+      "featuresTitle": "Your Personal Astrology Companion",
+      "featuresSubtitle": "Harness the power of Vedic astrology with our AI-powered platform",
+      "features": [
+        {
+          "title": "Daily Horoscope",
+          "description": "Get personalized daily predictions based on your birth chart and current planetary positions."
+        },
+        {
+          "title": "Shubh Muhurat",
+          "description": "Find the most auspicious timings for important events and ceremonies."
+        },
+        {
+          "title": "Birth Chart Analysis",
+          "description": "Deep insights into your planetary positions and their influence on your life."
+        },
+        {
+          "title": "Compatibility Check",
+          "description": "Check compatibility with your partner using advanced Vedic astrology techniques."
+        },
+        {
+          "title": "Festival Alerts",
+          "description": "Never miss important Hindu festivals and their significance."
+        },
+        {
+          "title": "Remedial Solutions",
+          "description": "Personalized remedies and solutions to overcome planetary challenges."
+        }
+      ]
+    },
+    "hi": {
+      "nav": {
+        "features": "विशेषताएं",
+        "getStarted": "शुरू करें",
+        "menu": "मेन्यू"
+      },
+      "hero": {
+        "tagline": "एआई-संचालित वैदिक ज्योतिष",
+        "title": "आपका व्यक्तिगत <span class=\"bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent\">डिजिटल पंडित</span>",
+        "description": "एआई द्वारा संचालित व्यक्तिगत वैदिक ज्योतिष मार्गदर्शन, शुभ मुहूर्त और दैनिक अंतर्दृष्टि प्राप्त करें। आपकी आध्यात्मिक यात्रा, सरल बनाई गई।",
+        "startTrial": "निःशुल्क परीक्षण शुरू करें",
+        "exploreFeatures": "विशेषताएं देखें",
+        "trustedBy": "10,000+ उपयोगकर्ताओं द्वारा भरोसा किया गया"
+      },
+      "featuresTitle": "आपका व्यक्तिगत ज्योतिष सहयोगी",
+      "featuresSubtitle": "हमारे एआई-संचालित प्लेटफॉर्म के साथ वैदिक ज्योतिष की शक्ति का उपयोग करें",
+      "features": [
+        {
+          "title": "दैनिक राशिफल",
+          "description": "आपकी जन्म कुंडली और वर्तमान ग्रह स्थितियों के आधार पर व्यक्तिगत भविष्यवाणियां प्राप्त करें।"
+        },
+        {
+          "title": "शुभ मुहूर्त",
+          "description": "महत्वपूर्ण कार्यक्रमों और समारोहों के लिए सबसे शुभ समय जानें।"
+        },
+        {
+          "title": "जन्म कुंडली विश्लेषण",
+          "description": "आपकी ग्रह स्थितियों और आपके जीवन पर उनके प्रभाव की गहन जानकारी।"
+        },
+        {
+          "title": "कुंडली मिलान",
+          "description": "उन्नत वैदिक ज्योतिष तकनीकों का उपयोग करके अपने साथी के साथ अनुकूलता की जांच करें।"
+        },
+        {
+          "title": "त्योहार सूचनाएं",
+          "description": "महत्वपूर्ण हिंदू त्योहारों और उनके महत्व को कभी न छोड़ें।"
+        },
+        {
+          "title": "उपाय और समाधान",
+          "description": "ग्रहों की चुनौतियों को दूर करने के लिए व्यक्तिगत उपाय और समाधान।"
+        }
+      ]
+    }
+  }
+}
