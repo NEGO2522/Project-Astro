@@ -1,7 +1,7 @@
 # God's Line - Modern Astrology Platform
 
 A modern, responsive web application for astrology services with a beautiful UI and smooth user experience.
-![Preview](public/og.png)
+![Preview](public/assets/og.png)
 
 ## ✨ Features
 
