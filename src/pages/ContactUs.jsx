@@ -1,5 +1,13 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPaperPlane, FaTimes } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
+
+// Get EmailJS configuration from environment variables
+const EMAILJS_CONFIG = {
+  SERVICE_ID: process.env.REACT_APP_EMAILJS_SERVICE_ID,
+  TEMPLATE_ID: process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+  PUBLIC_KEY: process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+};
 
 const ContactUs = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -17,10 +25,55 @@ const ContactUs = ({ onClose }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ success: null, message: '' });
+
+  useEffect(() => {
+    // Initialize EmailJS with your public key
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+    setSubmitStatus({ success: null, message: '' });
+
+    try {
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      };
+
+      await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams,
+        EMAILJS_CONFIG.PUBLIC_KEY
+      );
+
+      setSubmitStatus({ 
+        success: true, 
+        message: 'Your message has been sent successfully! We will get back to you soon.' 
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus({ 
+        success: false, 
+        message: 'Failed to send message. Please try again later.' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -102,14 +155,33 @@ const ContactUs = ({ onClose }) => {
               ></textarea>
             </div>
 
-            <div className="sm:col-span-2 text-center mt-2">
+            <div className="sm:col-span-2 text-center mt-2 space-y-2">
               <button
                 type="submit"
-                className="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-100 hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center justify-center group"
+                disabled={isSubmitting}
+                className={`w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-100 hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center justify-center group ${isSubmitting ? 'opacity-75 cursor-not-allowed' : ''}`}
               >
-                <span>Send Message</span>
-                <FaPaperPlane className="ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <FaPaperPlane className="ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                  </>
+                )}
               </button>
+              
+              {submitStatus.message && (
+                <div className={`mt-2 text-sm font-medium ${submitStatus.success ? 'text-green-600' : 'text-red-600'}`}>
+                  {submitStatus.message}
+                </div>
+              )}
             </div>
           </form>
         </div>
