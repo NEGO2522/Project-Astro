@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaGoogle, FaEnvelope, FaCheckCircle, FaChevronRight } from 'react-icons/fa';
 import { 
@@ -10,9 +10,10 @@ import {
   signInWithEmailLink
 } from '../firebase/firebase';
 import { ref, get } from 'firebase/database';
-// Removed login.json import as we're fetching from Firebase
+import { useAuth } from '../contexts/AuthContext';
 
 const Login = ({ language }) => {
+  const { login } = useAuth();
   const [t, setT] = useState({});
   const [translationsLoading, setTranslationsLoading] = useState(true);
   const [formData, setFormData] = useState({
@@ -200,18 +201,28 @@ const Login = ({ language }) => {
   const location = useLocation();
 
   // Check if we're handling a sign-in link
-  // Check if we're handling a sign-in link
   useEffect(() => {
     if (isEmailLink(window.location.href)) {
       const handleEmailLinkSignIn = async () => {
         try {
           let email = window.localStorage.getItem('emailForSignIn');
           if (!email) {
-            email = window.prompt(translations.emailPrompt);
+            email = window.prompt(translations.emailPrompt || 'Please provide your email for confirmation');
           }
           
           if (email) {
-            await signInWithEmailLink(email, window.location.href);
+            const userCredential = await signInWithEmailLink(email, window.location.href);
+            const user = userCredential.user;
+            
+            // Store user data in context and localStorage
+            const userData = {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName || user.email.split('@')[0],
+              photoURL: user.photoURL
+            };
+            
+            login(userData);
             navigate('/dashboard');
           }
         } catch (error) {
@@ -222,13 +233,24 @@ const Login = ({ language }) => {
       
       handleEmailLinkSignIn();
     }
-  }, [navigate, t.emailPrompt]);
+  }, [navigate, t.emailPrompt, login]);
 
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);
-      await signInWithGoogle();
-      navigate('/dashboard');
+      const userCredential = await signInWithGoogle();
+      const user = userCredential.user;
+      
+      // Store user data in context and localStorage
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || user.email.split('@')[0],
+        photoURL: user.photoURL
+      };
+      
+      login(userData);
+      navigate('/');
     } catch (error) {
       setError(error.message);
       console.error('Error signing in with Google', error);
@@ -250,6 +272,9 @@ const Login = ({ language }) => {
         url: `${window.location.origin}/login`,
         handleCodeInApp: true,
       };
+      
+      // Store the email in localStorage for after sign-in
+      window.localStorage.setItem('emailForSignIn', formData.email);
       
       await sendSignInLink(formData.email, actionCodeSettings);
       setEmailSent(true);

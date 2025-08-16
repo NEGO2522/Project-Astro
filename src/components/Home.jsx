@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import Modal from './Modal';
+import ContactUs from '../pages/ContactUs';
 import { FaStar, FaCalendarAlt, FaChartLine, FaUserFriends, FaMobileAlt, FaRegClock, FaChevronRight } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import Navbar from '../pages/Navbar';
 import { fetchTranslations } from '../firebase/firebase';
 
@@ -141,6 +144,20 @@ const Home = ({ language }) => {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [trail, setTrail] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  
+  const handleConnectClick = (e) => {
+    if (isAuthenticated) {
+      e.preventDefault();
+      setIsContactModalOpen(true);
+    }
+  };
+
+  // Log when isAuthenticated changes
+  useEffect(() => {
+    console.log('isAuthenticated changed:', isAuthenticated);
+  }, [isAuthenticated]);
 
   // Add styles for cursor effect
   useEffect(() => {
@@ -338,22 +355,34 @@ const Home = ({ language }) => {
               <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
                 {t.hero.description}
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2 sm:pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2">
                 <Link 
-                  to="/login" 
+                  to={isAuthenticated ? "/dashboard" : "/login"} 
                   className="mt-4 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 cta-button text-center flex items-center justify-center space-x-2 group w-full sm:w-auto"
                 >
-                  <span>{t.hero.startTrial}</span>
+                  <span>{isAuthenticated ? 'Know Your Fortune' : (t.hero?.startTrial || 'Start Free Trial')}</span>
                   <FaChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
                 </Link>
-                <a 
-                  href="#features" 
-                  onClick={(e) => scrollToSection(e, '#features')}
-                  className="border-2 border-gray-200 text-gray-700 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-medium hover:bg-gray-50 hover:border-indigo-100 hover:text-indigo-600 transition-all duration-300 text-center flex items-center justify-center space-x-2 group w-full sm:w-auto cursor-pointer"
-                >
-                  <span>{t.hero.exploreFeatures}</span>
-                  <FaChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                </a>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+                  {isAuthenticated ? (
+                    <button
+                      onClick={handleConnectClick}
+                      className="border-2 border-gray-200 text-gray-700 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-medium hover:bg-gray-50 hover:border-indigo-100 hover:text-indigo-600 transition-all duration-300 text-center flex items-center justify-center space-x-2 group w-full sm:w-auto"
+                    >
+                      <span>Connect With Us</span>
+                      <FaChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                    </button>
+                  ) : (
+                    <a
+                      href="#features"
+                      onClick={(e) => scrollToSection(e, '#features')}
+                      className="border-2 border-gray-200 text-gray-700 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-medium hover:bg-gray-50 hover:border-indigo-100 hover:text-indigo-600 transition-all duration-300 text-center flex items-center justify-center space-x-2 group w-full sm:w-auto cursor-pointer"
+                    >
+                      <span>{t.hero?.exploreFeatures || 'Explore Features'}</span>
+                      <FaChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                    </a>
+                  )}
+                </div>
               </div>
               
               <div className="pt-6 flex items-center justify-center lg:justify-start space-x-3 text-sm text-gray-500">
@@ -481,6 +510,14 @@ const Home = ({ language }) => {
       </div>
       {/* Add a subtle gradient to the bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-32 bg-gradient-to-t from-white to-transparent -z-10"></div>
+      
+      {/* Contact Us Modal */}
+      <Modal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)}
+      >
+        <ContactUs onClose={() => setIsContactModalOpen(false)} />
+      </Modal>
     </div>
   );
 };
