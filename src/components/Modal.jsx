@@ -35,29 +35,13 @@ const Modal = ({ isOpen, onClose, children }) => {
       {/* Modal Container */}
       <div className="flex min-h-screen items-end sm:items-center justify-center p-0 sm:p-4 text-center">
         <div 
-          className="relative w-full max-h-[90vh] bg-white p-6 sm:p-8 text-left shadow-xl transition-all duration-300 ease-out transform-gpu sm:rounded-2xl sm:max-w-2xl"
+          className={`relative w-full max-h-[90vh] bg-white p-6 sm:p-8 text-left shadow-xl transition-all duration-300 ease-out transform-gpu sm:rounded-2xl sm:max-w-2xl overflow-y-auto overscroll-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
+            sm:static sm:transform-none sm:transition-none
+            fixed bottom-0 left-0 right-0 w-full rounded-t-3xl rounded-b-none
+            ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
           onClick={(e) => e.stopPropagation()}
           style={{
-            maxHeight: '90vh',
-            overflowY: 'auto',
             WebkitOverflowScrolling: 'touch',
-            overscrollBehavior: 'contain',
-            msOverflowStyle: 'none',
-            scrollbarWidth: 'none',
-            // Mobile slide-up animation
-            '@media (max-width: 640px)': {
-              borderTopLeftRadius: '1.5rem',
-              borderTopRightRadius: '1.5rem',
-              borderBottomLeftRadius: '0',
-              borderBottomRightRadius: '0',
-              width: '100%',
-              position: 'fixed',
-              bottom: '0',
-              left: '0',
-              right: '0',
-              transform: isOpen ? 'translateY(0)' : 'translateY(100%)',
-              transition: 'transform 0.3s ease-out',
-            },
           }}
         >
           {/* Modal Content */}

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { FaPaperPlane, FaTimes } from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
 
-// Get EmailJS configuration from environment variables
+// Get EmailJS configuration from Vite environment variables
 const EMAILJS_CONFIG = {
-  SERVICE_ID: process.env.REACT_APP_EMAILJS_SERVICE_ID,
-  TEMPLATE_ID: process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-  PUBLIC_KEY: process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+  SERVICE_ID: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+  TEMPLATE_ID: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+  PUBLIC_KEY: import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 };
 
 const ContactUs = ({ onClose }) => {
