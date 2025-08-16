@@ -171,28 +171,39 @@ const Navbar = ({ language, setLanguage }) => {
                   )}
                 </div>
               ) : (
-                <Link 
-                  to="/login" 
-                  className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-100 hover:-translate-y-0.5 transition-all duration-300 flex items-center space-x-2 group"
-                >
-                  <span>{t.getStarted || 'Get Started'}</span>
-                  <FaChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
-                </Link>
+                <>
+                  <div className="hidden md:block">
+                    <Link 
+                      to="/login" 
+                      className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-100 hover:-translate-y-0.5 transition-all duration-300 flex items-center space-x-2 group"
+                    >
+                      <span>{t.getStarted || 'Get Started'}</span>
+                      <FaChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+                    </Link>
+                  </div>
+                  <Link 
+                    to="/login" 
+                    className="md:hidden bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-2 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-100 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center w-10 h-10"
+                    aria-label="Login"
+                  >
+                    <FaChevronRight className="w-4 h-4" />
+                  </Link>
+                </>
               )}
             
             {/* Mobile Language Selector */}
-            <div className="md:hidden">
-              <button 
-                onClick={() => setLanguage(prev => prev === 'en' ? 'hi' : 'en')}
-                className="flex items-center space-x-1.5 text-gray-700 hover:text-indigo-600 transition-colors duration-200 px-2 py-2 rounded-lg hover:bg-indigo-50"
-                aria-label={language === 'en' ? 'Switch to Hindi' : 'अंग्रेजी में बदलें'}
-              >
-                <FaGlobe className="w-4 h-4 flex-shrink-0" />
-                <span className="text-sm font-medium">
-                  {language === 'en' ? 'HI' : 'EN'}
-                </span>
-              </button>
-            </div>
+              <div className="md:hidden">
+                <button 
+                  onClick={() => {
+                    setLanguage(prev => prev === 'en' ? 'hi' : 'en');
+                    setIsMenuOpen(true); // Open menu when changing language on mobile
+                  }}
+                  className="flex items-center justify-center w-10 h-10 text-gray-700 hover:text-indigo-600 transition-colors duration-200 rounded-lg hover:bg-indigo-50"
+                  aria-label={language === 'en' ? 'Switch to Hindi' : 'अंग्रेजी में बदलें'}
+                >
+                  <FaGlobe className="w-5 h-5" />
+                </button>
+              </div>
           </div>
         </div>
         
@@ -208,8 +219,9 @@ const Navbar = ({ language, setLanguage }) => {
             overflowY: 'auto',
             WebkitOverflowScrolling: 'touch'
           }}
+          onClick={(e) => e.stopPropagation()}
         >
-          <div className="px-5 pt-4 pb-8 space-y-1">
+          <div className="px-4 pt-4 pb-8 space-y-1">
             <a 
               href="#features" 
               className="block px-4 py-3 text-lg text-gray-800 hover:bg-gray-50 rounded-lg font-medium transition-colors duration-200"
